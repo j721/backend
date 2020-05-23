@@ -2,7 +2,9 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 
+//auth middleware
 const authenticate = require('../auth/authenticate-middleware.js');
+
 const authRouter = require('../auth/auth-router.js');
 const recipesRouter = require('../recipes/recipes-router.js');
 
@@ -14,5 +16,9 @@ server.use(express.json());
 
 server.use('/api/auth', authRouter);
 server.use('/api/recipes', authenticate, recipesRouter);
+
+server.get("/", (req,res)=>{
+    res.json({api: "it's working, it's working!"})
+})
 
 module.exports = server;
