@@ -1,7 +1,7 @@
 const express = require('express');
 
 const Recipes = require('./recipes-model');
-// const Users = require('../users/users-model');
+const Users = require('../users/users-model');
 
 const router = require('express').Router();
 
@@ -36,12 +36,22 @@ router.get('/:id',(req,res)=>{
 })
 
 //GET recipe created specifically by the user 
-// router.get('/:id/user',(req,res)=>{
-//     const { id } = req.params;
+router.get('/:id/user',(req,res)=>{
+    const { id } = req.params;
 
-//     Users.findByUserId(id)
-    
-// })
+    Users.getUsersRecipes(id)
+    .then(recipe=>{
+        if(recipe){
+            res.status(200).json(recipe)
+        }else{
+            res.status(404).json({errorMessage: "Could not find recipe by that id."})
+        }
+    })
+    .catch(err=>{
+        console.log(err)
+        res.status(500).json({errorMessage: "Sorry, failed to get the recipe made by user."})
+    })
+})
 
 
 //POST request- creates a new recipe from validated user
