@@ -15,5 +15,22 @@ router.get('/',(req,res)=>{
     })
 })
 
+//POST request- creates a new recipe from validated user
+router.post('/:id/user',(req,res)=>{
+    const newRecipe = req.body;
+    const { id } = req.params;
+
+    Recipes.add(newRecipe, id)
+    .then((addedRecipe)=>{
+        res.status(200).json(addedRecipe)
+    })
+    .catch((err)=>{
+        console.log(err)
+        res.status(400).json({errorMessage:
+             "Please make sure that title, source, ingredients, instructions, and category are present."})
+    })
+})
+
+
 
 module.exports = router;
