@@ -35,8 +35,8 @@ router.get('/:id',(req,res)=>{
     })
 })
 
-//GET recipe created specifically by the user 
-router.get('/:id/user',(req,res)=>{
+//GET recipe created specifically by the user. Not sure if this is right
+router.get('/:id/user/',(req,res)=>{
     const { id } = req.params;
 
     Users.getUsersRecipes(id)
