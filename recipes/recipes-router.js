@@ -15,8 +15,26 @@ router.get('/',(req,res)=>{
     })
 })
 
+// GET recipes by id
+router.get('/:id/recipe',(req,res)=>{
+    const { id } = req.params;
+
+    Recipes.findById(id)
+    .then((recipes)=>{
+        if(recipes){
+            res.status(200).json(recipes)
+        }else{
+            res.status(404).json({errorMessage: "No recipes found by that id"})
+        }
+    })
+    .catch((err)=>{
+        console.log(err)
+        res.status(500).json({errorMessage: "Sorry, failed to get recipes."})
+    })
+})
+
 //POST request- creates a new recipe from validated user
-router.post('/:id/user',(req,res)=>{
+router.post('/:id/recipe',(req,res)=>{
     const newRecipe = req.body;
     const { id } = req.params;
 
@@ -31,8 +49,6 @@ router.post('/:id/user',(req,res)=>{
     })
 })
 
-
- // GET recipes for a specific user
 
 
 //PUT request- updates the recipe by id

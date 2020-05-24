@@ -1,18 +1,18 @@
 const db = require('../database/dbConfig');
 
 module.exports ={
-    find,
+    findAll,
     findById,
     add,
     update,
     remove
 }
 
-// function find(){
+// function findAll(){
 //     return db('recipes')
 // }
 
-function find(){
+function findAll(){
     return db.select ("*")
     .from("recipes")
 }
