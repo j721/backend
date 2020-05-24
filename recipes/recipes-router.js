@@ -55,7 +55,26 @@ router.post('/:id/user',(req,res)=>{
 
 
 //PUT request- updates the recipe by id
+router.put('/:id',(req,res)=>{
+    const { id } = req.params;
+    const changes =req.body;
 
+    Recipes.findById(id)
+    .then(recipe=>{
+        if(recipe){
+            Recipes.update(changes, id)
+            .then(updatedRecipe=>{
+                res.status(200).json(updatedRecipe)
+            });
+        }else{
+            res.status(404).json({errorMessage: "Could not find recipe with given id"})
+        }
+    })
+    .catch(err=>{
+        res.status(500).json({errorMessage: "Failed to update changes to recipe."})
+    })
+
+})
 
 //DELETE request- remove a recipe by id
 
