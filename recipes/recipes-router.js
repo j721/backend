@@ -15,7 +15,7 @@ router.get('/',(req,res)=>{
     })
 })
 
-// GET recipes by id
+// GET  recipes by id from recipes list
 router.get('/:id/recipe',(req,res)=>{
     const { id } = req.params;
 
@@ -32,8 +32,12 @@ router.get('/:id/recipe',(req,res)=>{
     })
 })
 
+//GET recipe created specifically by the user from userID
+router.get('/:id/')
+
+
 //POST request- creates a new recipe from validated user
-router.post('/:id/recipe',(req,res)=>{
+router.post('/:id/user',(req,res)=>{
     const newRecipe = req.body;
     const { id } = req.params;
 
