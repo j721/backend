@@ -21,15 +21,14 @@ router.get('/:id/recipe',(req,res)=>{
 
     Recipes.findById(id)
     .then((recipes)=>{
-        if(recipes){
+        if(recipes.length){
             res.status(200).json(recipes)
         }else{
-            res.status(404).json({errorMessage: "No recipes found by that id"})
+            res.status(404).json({errorMessage: "Could not find recipe by that id."})
         }
     })
     .catch((err)=>{
-        console.log(err)
-        res.status(500).json({errorMessage: "Sorry, failed to get recipes."})
+        res.status(500).json({errorMessage: "Sorry, could not retrieve recipes data."})
     })
 })
 
