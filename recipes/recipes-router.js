@@ -35,7 +35,7 @@ router.get('/:id',(req,res)=>{
     })
 })
 
-//GET recipe created specifically by the user. Not sure if this is right
+//GET recipe created specifically by the user. 
 router.get('/:id/user/',(req,res)=>{
     const { id } = req.params;
 
@@ -72,7 +72,6 @@ router.post('/:id/user',(req,res)=>{
 
 // router.post('/:id/user',(req,res)=>{
 //     const newRecipe = req.body;
-    
 
 //     Recipes.addRecipe(newRecipe)
 //     .then((newRecipe)=>{
@@ -85,7 +84,7 @@ router.post('/:id/user',(req,res)=>{
 //     })
 // })
 
-//PUT request- updates the recipe by id
+//PUT request- updates the recipe by id from the specific user's recipe list
 router.put('/:id',(req,res)=>{
     const { id } = req.params;
     const changes =req.body;
@@ -108,7 +107,7 @@ router.put('/:id',(req,res)=>{
 
 })
 
-//DELETE request- remove a recipe by id
+//DELETE request- remove a recipe by id from the specific user's recipe list
 
 router.delete('/:id', (req,res)=>{
     const { id } = req.params;
