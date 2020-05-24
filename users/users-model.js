@@ -2,9 +2,10 @@ const db = require('../database/dbConfig');
 
 module.exports ={
     add,
-    findById, 
+    findByUserId, 
     find, 
-    findBy
+    findBy,
+    getUsersRecipes
 
 }
 
@@ -24,6 +25,13 @@ function add(user){
     })
 }
 
-function findById(id){
+function findByUserId(id){
     return db('users').where({id}).first();
+}
+
+function getUsersRecipes(id){
+    return db('recipes as r')
+    .select('r.id', 'r.title', 'r.category','r.directions', 'r.source')
+    .where('r.user_id', id)
+    .orderBy('r.user_id', id);
 }

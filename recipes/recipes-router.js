@@ -1,11 +1,13 @@
 const express = require('express');
+
 const Recipes = require('./recipes-model');
+// const Users = require('../users/users-model');
 
 const router = require('express').Router();
 
 //GET request-returns array for recipes from login token
 router.get('/',(req,res)=>{
-    Recipes.find()
+    Recipes.findAll()
     .then(recipes=>{
         res.status(200).json(recipes)
     })
@@ -16,7 +18,7 @@ router.get('/',(req,res)=>{
 })
 
 // GET  recipes by id from recipes list
-router.get('/:id/recipe',(req,res)=>{
+router.get('/:id',(req,res)=>{
     const { id } = req.params;
 
     Recipes.findById(id)
@@ -33,8 +35,13 @@ router.get('/:id/recipe',(req,res)=>{
     })
 })
 
-//GET recipe created specifically by the user from userID
-router.get('/:id/')
+//GET recipe created specifically by the user 
+// router.get('/:id/user',(req,res)=>{
+//     const { id } = req.params;
+
+//     Users.findByUserId(id)
+    
+// })
 
 
 //POST request- creates a new recipe from validated user
@@ -42,9 +49,9 @@ router.post('/:id/user',(req,res)=>{
     const newRecipe = req.body;
     const { id } = req.params;
 
-    Recipes.add(newRecipe, id)
-    .then((addedRecipe)=>{
-        res.status(200).json(addedRecipe)
+    Recipes.addRecipe(newRecipe, id)
+    .then((newRecipe)=>{
+        res.status(200).json(newRecipe)
     })
     .catch((err)=>{
         console.log(err)
@@ -53,7 +60,20 @@ router.post('/:id/user',(req,res)=>{
     })
 })
 
+// router.post('/:id/user',(req,res)=>{
+//     const newRecipe = req.body;
+    
 
+//     Recipes.addRecipe(newRecipe)
+//     .then((newRecipe)=>{
+//         res.status(200).json(newRecipe)
+//     })
+//     .catch((err)=>{
+//         console.log(err)
+//         res.status(400).json({errorMessage:
+//              "Please make sure that title, source, ingredients, instructions, and category are present."})
+//     })
+// })
 
 //PUT request- updates the recipe by id
 router.put('/:id',(req,res)=>{

@@ -3,7 +3,7 @@ const db = require('../database/dbConfig');
 module.exports ={
     findAll,
     findById,
-    add,
+    addRecipe,
     update,
     remove
 }
@@ -24,7 +24,7 @@ function findById(id){
     .where({id})  
 }
 
-function add(recipe){
+function addRecipe(recipe){
     return db('recipes')
     .insert(recipe)
     .then(ids=>{
