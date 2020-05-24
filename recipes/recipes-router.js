@@ -11,7 +11,7 @@ router.get('/',(req,res)=>{
     })
     .catch(err=>{
         console.log(err)
-        res.status(500).json({errorMessage: "Sorry, encountered an error in retreiving recipes."})
+        res.status(500).json({errorMessage: "Sorry, encountered an error in retrieving recipes."})
     })
 })
 
@@ -32,5 +32,12 @@ router.post('/:id/user',(req,res)=>{
 })
 
 
+ // GET recipes for a specific user
+
+
+//PUT request- updates the recipe by id
+
+
+//DELETE request- remove a recipe by id
 
 module.exports = router;
