@@ -21,6 +21,7 @@ router.get('/:id/recipe',(req,res)=>{
 
     Recipes.findById(id)
     .then((recipes)=>{
+        //if(recipes)
         if(recipes.length){
             res.status(200).json(recipes)
         }else{
@@ -61,7 +62,8 @@ router.put('/:id',(req,res)=>{
 
     Recipes.findById(id)
     .then(recipe=>{
-        if(recipe){
+        //if(recipe)
+        if(recipe.length){
             Recipes.update(changes, id)
             .then(updatedRecipe=>{
                 res.status(200).json(updatedRecipe)
@@ -77,5 +79,21 @@ router.put('/:id',(req,res)=>{
 })
 
 //DELETE request- remove a recipe by id
+
+router.delete('/:id', (req,res)=>{
+    const { id } = req.params;
+
+    Recipes.remove(id)
+    .then(deleted=>{
+        if(deleted){
+            res.status(200).json({deleted})
+        }else{
+            res.status(404).json({errorMessage: "Could not find recipe with given id"})
+        }
+    })
+    .catch(err=>{
+        res.status(500).json({errorMessage: "Failed to delete recipe."})
+    })
+})
 
 module.exports = router;
