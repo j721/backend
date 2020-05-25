@@ -33,10 +33,10 @@ module.exports = {
     },
   },
 
-  //heroku postgres
+  //heroku postgres or sqlite
   production: {
-      client: 'pg',     //npm i pg
-      connection: pgConnection,
+      client: 'sqlite3',     //or pg?
+      connection: process.env.DATABASE_URL,
       pool: {
           min: 2,
           max: 10
