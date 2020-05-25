@@ -39,7 +39,7 @@ function findByUserId(id){
 
 function getUsersRecipes(id){
     return db('recipes as r')
-    .select('r.id', 'r.title', 'r.category','r.instructions', 'r.source')
+    .select('r.id', 'r.title', 'r.category','r.instructions', 'r.source', 'r.ingredients')
     .where('r.user_id', id)
     .orderBy('r.user_id', id);
 }
