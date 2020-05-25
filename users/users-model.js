@@ -18,18 +18,18 @@ function find(){
     return db('users').select( 'username', 'password', 'email')
 }
 
-// function add(user){
-//     return db('users').insert(user)
-//     .then(ids=>{
-//         return db('users').where({id: ids[0]}).first()
-//     })
-// }
-
-async function add(user) {
-    const [id] = await db('users').insert(user);
-
-    return findByUserId(id);
+function add(user){
+    return db('users').insert(user)
+    .then(ids=>{
+        return db('users').where({id: ids[0]}).first()
+    })
 }
+
+// async function add(user) {
+//     const [id] = await db('users').insert(user);
+
+//     return findByUserId(id);
+// }
 
 
 
