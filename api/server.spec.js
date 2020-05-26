@@ -43,3 +43,7 @@ describe("GET /", () => {
             });
     });
 });
+
+// test("environment test", () => {
+//     expect(process.env.DB_ENV).toBe("testing");
+//   });
