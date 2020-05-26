@@ -26,7 +26,7 @@ describe("server", () => {
 
 describe("GET /", () => {
     it("should return http status code 200 OK", () => {
-        return supertest(server)
+        return request(server)
             .get("/")
             .then(response => {
                 expect(response.status).toBe(200);
@@ -34,7 +34,7 @@ describe("GET /", () => {
     });
 
     it("should return { api: 'it's working, it's working! }", () => {
-        return supertest(server)
+        return request(server)
             .get("/")
             .then(response => {
                 expect(response.body).toEqual({api: "it's working, it's working!"});
@@ -43,3 +43,7 @@ describe("GET /", () => {
             });
     });
 });
+
+// test("environment test", () => {
+//     expect(process.env.DB_ENV).toBe("testing");
+//   });
