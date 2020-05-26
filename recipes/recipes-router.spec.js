@@ -7,41 +7,89 @@ beforeEach(() => {
     return db.migrate
         .rollback()
         .then(() => db.migrate.latest())
+    .then(()=>db.seed.run())
 
 })
 
-//needs authentication from login--do register and login for all crud testing. 
+//needs authentication from register and login for all crud testing. 
 //Token auth needed
 
 //GET
 
-test("GET /api/recipes. Return array of recipes for logged in user", async () => {
-    const res = await request(server)
-    .get("/api/recipes")
-    expect(res.type).toBe("application/json");
-    expect(res.status).toBe(200);
-})
+// test("GET /api/recipes. Return array of recipes for logged in user", async () => {
+//     const register = await request(server)
+//         .post("/api/auth/register")
+//         .send({ username: "flavor", password: "vanilla", email: "flavor456@email.com" })
 
-test("GET /api/recipes/:id  Get recipe by id", async () => {
-    const res = await request(server)
-    .get("/api/recipes/:id")
-    expect(res.type).toBe("application/json");
-    expect(res.status).toBe(200);
-})
+//     const login = await request(server)
+//         .post("/api/auth/login")
+//         .send({ username: "flavor", password: "vanilla" })
+
+//     const res = await request(server)
+//         .get("/api/recipes")
+//         .set("authorization", login.body.token);
+//     expect(res.type).toBe("application/json");
+//     expect(res.body).toHaveLength(2);
+//     expect(res.body[0]).toHaveProperty("id");
+//     expect(res.body[0]).toMatchObject({ id: 1 });
+//     expect(res.status).toBe(200);
+// })
+
+// test("GET /api/recipes/:id  Get recipe by id", async () => {
+//     const register = await request(server)
+//         .post("/api/auth/register")
+
+//         .send({ username: "flavor", password: "vanilla", email: "flavor456@email.com" })
+//     const login = await request(server)
+//         .post("/api/auth/login")
+
+//         .send({ username: "flavor", password: "vanilla" })
+//     const res = await request(server)
+//         .get("/api/recipes/1")
+//         .set("authorization", login.body.token);
+//     expect(res.body[0]).toHaveProperty("id");
+//     expect(res.body).toHaveLength(1);
+//     expect(res.type).toBe("application/json");
+//     expect(res.status).toBe(200);
+// })
 
 test("GET /api/recipes/:id/user. Recipe created specifically by the user.", async () => {
+    const register = await request(server)
+        .post("/api/auth/register")
+        .send({ username: "flavor", password: "vanilla", email: "flavor456@email.com" })
+    const login = await request(server)
+        .post("/api/auth/login")
+        .send({ username: "flavor", password: "vanilla", email: "flavor456@email.com" })
+
     const res = await request(server)
-    .get("/api/recipes/:id/user")
+        .get("/api/recipes/1/user")
+        .set("authorization", login.body.token);
+    // expect(res.body[0]).toHaveProperty("id");
+    expect(res.body[0]).toHaveProperty("title");
+    // expect(res.body).toContain("title");
+    //expect(res.body.title).toHaveProperty("title");
     expect(res.type).toBe("application/json");
     expect(res.status).toBe(200);
 })
 
 
-  //Post
+//Post
 
-test("POST /api/recipes/:id/user  Create new recipe from logged in user", async()=>{
+test("POST /api/recipes/:id/user  Create new recipe from logged in user", async () => {
+    const register = await request(server)
+        .post("/api/auth/register")
+        .send({ username: "flavor", password: "vanilla", email: "flavor456@email.com" })
+    const login = await request(server)
+        .post("/api/auth/login")
+        .send({ username: "flavor", password: "vanilla", email: "flavor456@email.com" })
+
     const res = await request(server)
-    .post("/api/recipes")
+        .post("/api/recipes/1/user")
+        .set("authorization", login.body.token);
+    expect(res.body[0]).toHaveProperty("id");
+    expect(res.body).toHaveProperty("token");
+    expect(res.body).toHaveProperty("title");
+    expect(res.body).toHaveProperty("category");
     expect(res.type).toBe("application/json");
     expect(res.status).toBe(200);
 })
@@ -49,9 +97,17 @@ test("POST /api/recipes/:id/user  Create new recipe from logged in user", async(
 
 //Update
 
-test("PUT /api/recipes/:id  Updates recipe by id from specific user's recipe list", async()=>{
+test("PUT /api/recipes/:id  Updates recipe by id from specific user's recipe list", async () => {
+    // const register = await request(server)
+    //     .post("/api/auth/register")
+    //     .send({ username: "flavor", password: "vanilla", email: "flavor456@email.com" })
+    const login = await request(server)
+        .post("/api/auth/login")
+        .send({ username: "lambda", password: "password" })
+
     const res = await request(server)
-    .put("/api/recipes/:id")
+        .put("/api/recipes/1")
+        .set("authorization", login.body.token);
     expect(res.type).toBe("application/json");
     expect(res.status).toBe(200);
 })
@@ -59,9 +115,18 @@ test("PUT /api/recipes/:id  Updates recipe by id from specific user's recipe lis
 
 //Delete
 
-test("DELETE /api/recipes:id   Deletes recipe by id from specific user's recipe list",async()=>{
+test("DELETE /api/recipes:id   Deletes recipe by id from specific user's recipe list", async () => {
+    // const register = await request(server)
+    //     .post("/api/auth/register")
+    //     .send({ username: "flavor", password: "vanilla", email: "flavor456@email.com" })
+    const login = await request(server)
+        .post("/api/auth/login")
+        .send({ username: "lambda", password: "password" })
+
     const res = await request(server)
-    .put("/api/recipes/:id")
+        .put("/api/recipes/1")
+        .set("authorization", login.body.token);
     expect(res.type).toBe("application/json");
+    expect(res.body[0]).toHaveProperty("id");
     expect(res.status).toBe(200);
 })
