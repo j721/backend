@@ -64,10 +64,12 @@ test("GET /api/recipes/:id/user. Recipe created specifically by the user.", asyn
     const res = await request(server)
         .get("/api/recipes/1/user")
         .set("authorization", login.body.token);
-    // expect(res.body[0]).toHaveProperty("id");
+    expect(res.body[0]).toHaveProperty("id");
     expect(res.body[0]).toHaveProperty("title");
-    // expect(res.body).toContain("title");
-    //expect(res.body.title).toHaveProperty("title");
+    expect(res.body[0]).toHaveProperty("category");
+    expect(res.body[0]).toHaveProperty("ingredients");
+    expect(res.body[0]).toHaveProperty("instructions");
+    expect(res.body[0]).toHaveProperty("source");
     expect(res.type).toBe("application/json");
     expect(res.status).toBe(200);
 })
@@ -87,9 +89,8 @@ test("POST /api/recipes/:id/user  Create new recipe from logged in user", async 
         .post("/api/recipes/1/user")
         .set("authorization", login.body.token);
     expect(res.body[0]).toHaveProperty("id");
-    expect(res.body).toHaveProperty("token");
-    expect(res.body).toHaveProperty("title");
-    expect(res.body).toHaveProperty("category");
+    expect(res.body[0]).toHaveProperty("title");
+    expect(res.body[0]).toHaveProperty("category");
     expect(res.type).toBe("application/json");
     expect(res.status).toBe(200);
 })
