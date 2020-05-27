@@ -16,7 +16,6 @@ test("POST /api/auth/register   Check if register working", async () => {
     const res = await request(server)
         .post('/api/auth/register')
         .send({ username: "cotton", password: "candy", email: "cottoncandy@123email.com"})
-        // expect(res.body.username).toBe("flavor")
     expect(res.body.data).toMatchObject({ username: "cotton", email: "cottoncandy@123email.com"})
     expect(res.body.password).not.toBe("password")
     expect(res.status).toBe(201)
