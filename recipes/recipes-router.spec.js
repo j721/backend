@@ -4,7 +4,7 @@ const server = require('../api/server');
 const db = require('../database/dbConfig');
 
 const recipe = {
-    title: 'Easy Cake in a Mug Recipe',
+    title: 'Super Easy Cake in a Mug Recipe',
     source: 'Tasty',
     ingredients:
         "4 tablespoons flour,3 tablespoons sugar, 2 tablespoons cocoa powder,½ teaspoon baking powder,3 tablespoons milk,1 tablespoon oil, vegetable or canola,1 teaspoon vanilla extract,1 tablespoon chocolate hazelnut spread, plus more for topping",
@@ -49,7 +49,7 @@ test("GET /api/recipes/:id  Get recipe by id", async () => {
     const register = await request(server)
         .post("/api/auth/register")
 
-        .send({ username: "flavor", password: "vanilla", email: "flavor456@email.com" })
+        .send({ username: "flavor", password: "vanilla", email: "icecream456@email.com" })
     const login = await request(server)
         .post("/api/auth/login")
 
