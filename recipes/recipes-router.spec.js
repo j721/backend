@@ -3,12 +3,12 @@ const server = require('../api/server');
 
 const db = require('../database/dbConfig');
 
-const recipe={
-    title: 'Brownie in a Mug', 
+const recipe = {
+    title: 'Easy Cake in a Mug Recipe',
     source: 'Tasty',
     ingredients:
-     "4 tablespoons flour,3 tablespoons sugar, 2 tablespoons cocoa powder,½ teaspoon baking powder,3 tablespoons milk,1 tablespoon oil, vegetable or canola,1 teaspoon vanilla extract,1 tablespoon chocolate hazelnut spread, plus more for topping",
-    instructions:  "12-ounce (375 ml) mug or larger, mix all ingredients (except the chocolate hazelnut spread) until just combined. Once combined, spoon the chocolate hazelnut spread on top of the batter. Microwave on high for 90 seconds to 2 minutes, watching to make sure it doesn’t spill over (depending on the size of the mug). Let cool one minute before eating. Top with additional chocolate hazelnut spread and powdered sugar (optional).",
+        "4 tablespoons flour,3 tablespoons sugar, 2 tablespoons cocoa powder,½ teaspoon baking powder,3 tablespoons milk,1 tablespoon oil, vegetable or canola,1 teaspoon vanilla extract,1 tablespoon chocolate hazelnut spread, plus more for topping",
+    instructions: "12-ounce (375 ml) mug or larger, mix all ingredients (except the chocolate hazelnut spread) until just combined. Once combined, spoon the chocolate hazelnut spread on top of the batter. Microwave on high for 90 seconds to 2 minutes, watching to make sure it doesn’t spill over (depending on the size of the mug). Let cool one minute before eating. Top with additional chocolate hazelnut spread and powdered sugar (optional).",
     category: 'desert',
     user_id: 1
 }
@@ -17,7 +17,7 @@ beforeEach(() => {
     return db.migrate
         .rollback()
         .then(() => db.migrate.latest())
-    .then(()=>db.seed.run())
+        .then(() => db.seed.run())
 
 })
 
@@ -97,18 +97,14 @@ test("POST /api/recipes/:id/user  Create new recipe from logged in user", async 
 
     const res = await request(server)
         .post("/api/recipes/1/user")
-        .send({ title: 'Brownie in a Mug', 
-        source: 'Tasty',
-        ingredients:
-         "4 tablespoons flour,3 tablespoons sugar, 2 tablespoons cocoa powder,½ teaspoon baking powder,3 tablespoons milk,1 tablespoon oil, vegetable or canola,1 teaspoon vanilla extract,1 tablespoon chocolate hazelnut spread, plus more for topping",
-        instructions:  "12-ounce (375 ml) mug or larger, mix all ingredients (except the chocolate hazelnut spread) until just combined. Once combined, spoon the chocolate hazelnut spread on top of the batter. Microwave on high for 90 seconds to 2 minutes, watching to make sure it doesn’t spill over (depending on the size of the mug). Let cool one minute before eating. Top with additional chocolate hazelnut spread and powdered sugar (optional).",
-        category: 'desert', user_id:1})
+        .send(recipe)
         .set("authorization", login.body.token);
-    // expect(res.body[0]).toHaveProperty("id");
-    // expect(res.body).toBe(1);
     expect(res.body).toHaveLength(1);
-    expect(res.body).toHaveProperty("title");
-    // expect(res.body[0]).toHaveProperty("category");
+    expect(res.body[0]).toHaveProperty("title");
+    expect(res.body[0]).toHaveProperty("id");
+    expect(res.body[0]).toHaveProperty("category");
+    expect(res.body[0]).toHaveProperty("ingredients");
+    expect(res.body[0]).toHaveProperty("instructions");
     expect(res.type).toBe("application/json");
     expect(res.status).toBe(200);
 })
@@ -126,9 +122,9 @@ test("POST /api/recipes/:id/user  Create new recipe from logged in user", async 
 
 //     const res = await request(server)
 //         .put("/api/recipes/1")
-//         .send({...recipe, title: "Cake in a Mug Recipe"})
+//         .send({...recipe, title: "Chocolate Cake in a Mug Recipe"})
 //         .set("authorization", login.body.token);
-//     // expect(res.body[0]).toMatchObject({ title: "Cake in a Mug Recipe" });
+//     // expect(res.body[0]).toMatchObject({ title: "Chocolate Cake in a Mug Recipe" });
 //     expect(res.body).toBe(1);
 //     expect(res.type).toBe("application/json");
 //     expect(res.status).toBe(200);
@@ -137,24 +133,24 @@ test("POST /api/recipes/:id/user  Create new recipe from logged in user", async 
 
 //Delete
 
-test("DELETE /api/recipes:id   Deletes recipe by id from specific user's recipe list", async () => {
-    // const register = await request(server)
-    //     .post("/api/auth/register")
-    //     .send({ username: "flavor", password: "vanilla", email: "flavor456@email.com" })
-    const login = await request(server)
-        .post("/api/auth/login")
-        .send({ username: "lambda", password: "password" })
-    
-    const post = await request(server)
-        .post('/api/recipes/1/user')
-        .send(recipe)
-        .set("authorization", login.body.token)
+// test("DELETE /api/recipes:id   Deletes recipe by id from specific user's recipe list", async () => {
+//     // const register = await request(server)
+//     //     .post("/api/auth/register")
+//     //     .send({ username: "flavor", password: "vanilla", email: "flavor456@email.com" })
+//     const login = await request(server)
+//         .post("/api/auth/login")
+//         .send({ username: "lambda", password: "password" })
 
-    const res = await request(server)
-        .delete("/api/recipes/1")
-        .send(recipe)
-        .set("authorization", login.body.token);
-    expect(res.type).toBe("application/json");
-    expect(res.body.deleted).toBe(1);  //.deleted comes from recipes-router
-    expect(res.status).toBe(200);
-})
+//     const post = await request(server)
+//         .post('/api/recipes/1/user')
+//         .send(recipe)
+//         .set("authorization", login.body.token)
+
+//     const res = await request(server)
+//         .delete("/api/recipes/1")
+//         .send(recipe)
+//         .set("authorization", login.body.token);
+//     expect(res.type).toBe("application/json");
+//     expect(res.body.deleted).toBe(1);  //.deleted comes from recipes-router
+//     expect(res.status).toBe(200);
+// })
