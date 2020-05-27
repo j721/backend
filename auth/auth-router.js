@@ -6,6 +6,7 @@ const router = require('express').Router();
 const Users = require('../users/users-model');
 const { isValid } = require("../users/users-service.js");
 
+require('dotenv').config();
 
 // POST /auth/register
 router.post("/register", (req, res) => {
