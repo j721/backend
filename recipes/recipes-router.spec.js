@@ -9,7 +9,8 @@ const recipe={
     ingredients:
      "4 tablespoons flour,3 tablespoons sugar, 2 tablespoons cocoa powder,½ teaspoon baking powder,3 tablespoons milk,1 tablespoon oil, vegetable or canola,1 teaspoon vanilla extract,1 tablespoon chocolate hazelnut spread, plus more for topping",
     instructions:  "12-ounce (375 ml) mug or larger, mix all ingredients (except the chocolate hazelnut spread) until just combined. Once combined, spoon the chocolate hazelnut spread on top of the batter. Microwave on high for 90 seconds to 2 minutes, watching to make sure it doesn’t spill over (depending on the size of the mug). Let cool one minute before eating. Top with additional chocolate hazelnut spread and powdered sugar (optional).",
-    category: 'desert'
+    category: 'desert',
+    user_id: 1
 }
 
 beforeEach(() => {
@@ -126,6 +127,8 @@ test("PUT /api/recipes/:id  Updates recipe by id from specific user's recipe lis
         .put("/api/recipes/1")
         .send({...recipe, title: "Cake in a Mug Recipe"})
         .set("authorization", login.body.token);
+    // expect(res.body[0]).toMatchObject({ title: "Cake in a Mug Recipe" });
+    expect(res.body).toBe(1);
     expect(res.type).toBe("application/json");
     expect(res.status).toBe(200);
 })
@@ -140,12 +143,18 @@ test("DELETE /api/recipes:id   Deletes recipe by id from specific user's recipe 
     const login = await request(server)
         .post("/api/auth/login")
         .send({ username: "lambda", password: "password" })
+    
+    const post = await request(server)
+        .post('/api/recipes/1/user')
+        .send(recipe)
+        .set("authorization", login.body.token)
 
     const res = await request(server)
-        .put("/api/recipes/1")
+        .delete("/api/recipes/1")
         .send(recipe)
         .set("authorization", login.body.token);
     expect(res.type).toBe("application/json");
+    expect(res.body.removed).toBe(1);
     expect(res.body[0]).toHaveProperty("id");
     expect(res.status).toBe(200);
 })
