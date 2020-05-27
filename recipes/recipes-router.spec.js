@@ -12,14 +12,14 @@ const recipe = {
     category: 'desert',
     user_id: 1
 }
-
+ 
 beforeEach(() => {
     return db.migrate
         .rollback()
         .then(() => db.migrate.latest())
         .then(() => db.seed.run())
 
-})
+}) 
 
 //needs authentication from register and login for all crud testing. 
 //Token auth needed
@@ -49,7 +49,7 @@ test("GET /api/recipes/:id  Get recipe by id", async () => {
     const register = await request(server)
         .post("/api/auth/register")
 
-        .send({ username: "flavor", password: "vanilla", email: "icecream456@email.com" })
+        .send({ username: "flavor", password: "vanilla", email: "flavor456@email.com" })
     const login = await request(server)
         .post("/api/auth/login")
 

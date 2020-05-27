@@ -3,10 +3,11 @@ const server = require('../api/server');
 
 const db = require('../database/dbConfig');
 
-beforeEach(() => {
+afterEach(() => {
     return db.migrate
         .rollback()
         .then(() => db.migrate.latest())
+        // .then(() => db.seed.run())
 
 })
 
